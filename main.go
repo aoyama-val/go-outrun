@@ -102,6 +102,20 @@ func render(renderer *sdl.Renderer, window *sdl.Window, g *m.Game) {
 			} else {
 				col = sdl.Color{R: 0xbb, G: 0xbb, B: 0xbb, A: 255}
 			}
+			var edg sdl.Color
+			if i%3 != 0 {
+				edg = sdl.Color{R: 0xbb, G: 0xbb, B: 0xbb, A: 255}
+			} else {
+				edg = sdl.Color{R: 0xff, G: 0xff, B: 0xff, A: 255}
+			}
+			var grn sdl.Color
+			if i%3 != 0 {
+				grn = sdl.Color{R: 0x66, G: 0xff, B: 0x66, A: 255}
+			} else {
+				grn = sdl.Color{R: 0x88, G: 0xff, B: 0x88, A: 255}
+			}
+			drawRoad(renderer, grn, m.SCREEN_W/2, my, m.SCREEN_W, m.SCREEN_W/2, py, m.SCREEN_W)
+			drawRoad(renderer, edg, mx, my, int32(float64(mw)*1.1), px, py, int32(float64(pw)*1.1))
 			drawRoad(renderer, col, mx, my, mw, px, py, pw)
 		}
 		mx = px
@@ -119,16 +133,21 @@ func render(renderer *sdl.Renderer, window *sdl.Window, g *m.Game) {
 }
 
 func drawRoad(renderer *sdl.Renderer, col sdl.Color, mx, my, mw, px, py, pw int32) {
-	y1 := my
-	y2 := py
-	x1 := mx - mw/2
-	x2 := px - pw/2
+	y1 := int16(my)
+	y2 := int16(py)
+	x1 := int16(mx - mw/2)
+	x2 := int16(px - pw/2)
 	// fmt.Printf("x1 = %d, y1 = %d, x2 = %d, y2 = %d\n", x1, y1, x2, y2)
 
-	if x1 >= 0 && y1 >= 0 && x2 >= 0 && y2 > 0 {
+	x1w := x1 + int16(mw)
+	x2w := x2 + int16(pw)
+
+	// SDL_gfxは画面からはみだす座標を指定すると変な描画になるっぽい？
+	if x1 >= 0 && y1 >= 0 && x2 >= 0 && y2 > 0 &&
+		x1 <= m.SCREEN_W && y1 <= m.SCREEN_H && x2 <= m.SCREEN_W && y2 <= m.SCREEN_H {
 		gfx.FilledPolygonColor(renderer,
-			[]int16{int16(x1), int16(x1 + mw), int16(x2 + pw), int16(x2)},
-			[]int16{int16(y1), int16(y1), int16(y2), int16(y2)},
+			[]int16{x1, x1w, x2w, x2},
+			[]int16{y1, y1, y2, y2},
 			col)
 	}
 }
