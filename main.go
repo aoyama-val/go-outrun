@@ -44,7 +44,7 @@ func main() {
 			case *sdl.QuitEvent:
 				running = false
 			case *sdl.KeyboardEvent:
-				if t.State == sdl.PRESSED && t.Repeat == 0 {
+				if t.State == sdl.PRESSED {
 					keyCode := t.Keysym.Sym
 					switch keyCode {
 					case sdl.K_ESCAPE:
