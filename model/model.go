@@ -7,6 +7,10 @@ import (
 )
 
 const (
+	SCREEN_W = 600
+	SCREEN_H = 400
+	FPS      = 60
+
 	ROAD_L = 2000 // roadの長さ
 	VIEW_L = 300  // 視界の長さ
 
