@@ -91,5 +91,19 @@ func (g *Game) Update(command string) {
 		g.Jiki_z += 100
 	}
 
+	start := g.Jiki_z / PART_L
+
+	// カーブを計算。sxが三角数になり、2次曲線になる
+	sx := int32(0)
+	cx := int32(0)
+	for i := start; i < start+VIEW_L; i++ {
+		r := &g.Road[i]
+		cx += r.C
+		sx += cx
+		r.Sx = sx
+	}
+
+	g.Jiki_y = JIKI_Y + g.Road[start].Y
+
 	g.Frame += 1
 }

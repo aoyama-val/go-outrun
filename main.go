@@ -73,9 +73,6 @@ func render(renderer *sdl.Renderer, window *sdl.Window, g *m.Game) {
 
 	start := g.Jiki_z / m.PART_L
 
-	// これはupdateでやるべき
-	// jiki_y := m.JIKI_Y + g.Road[start].Y
-
 	mx := int32(0)
 	my := int32(0)
 	mw := int32(0)
