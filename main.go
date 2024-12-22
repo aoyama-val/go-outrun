@@ -84,6 +84,9 @@ func render(renderer *sdl.Renderer, window *sdl.Window, g *m.Game) {
 		}
 		r := g.Road[i]
 		dist := r.Z - g.Jiki_z
+		if dist == 0 {
+			continue
+		}
 		scale := float64(m.CAMERA_D) / float64(dist)
 
 		px := int32((1 + float64(r.X-g.Jiki_x+r.Sx)*scale) * float64(m.SCREEN_W) / 2)
@@ -139,12 +142,8 @@ func drawRoad(renderer *sdl.Renderer, col sdl.Color, mx, my, mw, px, py, pw int3
 	x1w := x1 + int16(mw)
 	x2w := x2 + int16(pw)
 
-	// SDL_gfxは画面からはみだす座標を指定すると変な描画になるっぽい？
-	if x1 >= 0 && y1 >= 0 && x2 >= 0 && y2 > 0 &&
-		x1 <= m.SCREEN_W && y1 <= m.SCREEN_H && x2 <= m.SCREEN_W && y2 <= m.SCREEN_H {
-		gfx.FilledPolygonColor(renderer,
-			[]int16{x1, x1w, x2w, x2},
-			[]int16{y1, y1, y2, y2},
-			col)
-	}
+	gfx.FilledPolygonColor(renderer,
+		[]int16{x1, x1w, x2w, x2},
+		[]int16{y1, y1, y2, y2},
+		col)
 }
