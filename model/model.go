@@ -61,9 +61,15 @@ func NewGame() *Game {
 		if i > 300 && i <= 400 {
 			part.C = -4
 		}
-
-		if i > 400 && i < 500 {
-			part.Y = int32(math.Sin((float64(i)-400)/30) * 1000)
+		if i > 400 && i < 589 {
+			part.Y = int32(1000 * math.Sin(float64(i-400)/30))
+			// fmt.Printf("%d\n", part.Y)
+		}
+		if i > 650 && i <= 700 {
+			part.C = 5
+		}
+		if i > 700 && i <= 750 {
+			part.C = -5
 		}
 		g.Road = append(g.Road, part)
 	}
@@ -94,7 +100,8 @@ func (g *Game) Update(command string) {
 		g.Jiki_z += 100
 	}
 
-	if g.Jiki_z >= 700*PART_L {
+	// コースをループさせて無限に続くように
+	if g.Jiki_z >= 850*PART_L {
 		g.Jiki_z = 0
 	}
 
