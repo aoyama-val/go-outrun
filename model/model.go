@@ -62,7 +62,7 @@ func NewGame() *Game {
 			part.C = -4
 		}
 
-		if i > 400 {
+		if i > 400 && i < 500 {
 			part.Y = int32(math.Sin((float64(i)-400)/30) * 1000)
 		}
 		g.Road = append(g.Road, part)
@@ -80,6 +80,9 @@ func (g *Game) Update(command string) {
 		return
 	}
 
+	// キーが押されていなくても前に進むように
+	command = "up"
+
 	switch command {
 	case "left":
 		g.Jiki_x -= 100
@@ -89,6 +92,10 @@ func (g *Game) Update(command string) {
 		g.Jiki_z -= 100
 	case "up":
 		g.Jiki_z += 100
+	}
+
+	if g.Jiki_z >= 700*PART_L {
+		g.Jiki_z = 0
 	}
 
 	start := g.Jiki_z / PART_L
